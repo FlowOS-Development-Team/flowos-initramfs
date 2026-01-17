@@ -12,14 +12,15 @@ mount -t devtmpfs devtempfs /dev #mount inital dev filesystem
 
 #Mount the actual filesystem
 #AGAIN, PLEASE DO NOT TOUCH IF YOU DO NOT KNOW WHAT YOU ARE DOING; EDITING THIS IMPROPERLY WILL CALL A KERNEL PANIC!
-mount /dev/sda
+mount /dev/sda1
 
 # Bypass rootfs and bash into initramfs; DO NOT UNCOMMENT THE LINE BELOW UNLESS YOU KNOW WHAT YOU ARE DOING
 #./bin/bash
 
 # Unmount temporary filesystem
 
-switch_root /dev/sda /bin/init
+exec switch_root /dev/sda1 /bin/init
+
 umount /proc
 umount /sys
 umount /dev
