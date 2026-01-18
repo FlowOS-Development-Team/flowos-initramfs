@@ -4,11 +4,11 @@
 # Mount initramfs
 mount -t proc proc /proc #mount inital proc fs
 mount -t sysfs sysfs /sys #mount inital system filesystem
-mount -t devtmpfs devtempfs /dev #mount inital dev filesystem
+mount -t devtmpfs devtmpfs /dev #mount inital dev filesystem
 
 # NOTE FOR DEVELOPERS; IGNORE IF YOU DON'T KNOW WHAT YOU ARE DOING
 # Here if neccessary, you can add kernel modules to be loaded on boot, do not mess with this unless absolutely neccessary (requires modprobe/insmod)
-insmod /lib/modules/virtio_blk.ko
+# eg if not compiling virtio support; insmod /lib/modules/virtio_blk.ko
 
 #Mount the actual filesystem
 #AGAIN, PLEASE DO NOT TOUCH IF YOU DO NOT KNOW WHAT YOU ARE DOING; EDITING THIS IMPROPERLY WILL CALL A KERNEL PANIC!
@@ -19,8 +19,7 @@ insmod /lib/modules/virtio_blk.ko
 
 # Unmount temporary filesystem
 
-#exec switch_root /sysroot /bin/init
-mount -o rw /dev/vda1 /root
+mount -o rw /dev/vda1 /sysroot
 exec switch_root /root /sbin/init
 #umount /proc
 #umount /sys
