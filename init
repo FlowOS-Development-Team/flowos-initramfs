@@ -8,23 +8,24 @@ mount -t devtmpfs devtempfs /dev #mount inital dev filesystem
 
 # NOTE FOR DEVELOPERS; IGNORE IF YOU DON'T KNOW WHAT YOU ARE DOING
 # Here if neccessary, you can add kernel modules to be loaded on boot, do not mess with this unless absolutely neccessary (requires modprobe/insmod)
-# eg: insmod etc/lib/module1.ko
+insmod /lib/modules/virtio_blk.ko
 
 #Mount the actual filesystem
 #AGAIN, PLEASE DO NOT TOUCH IF YOU DO NOT KNOW WHAT YOU ARE DOING; EDITING THIS IMPROPERLY WILL CALL A KERNEL PANIC!
-mount / /sysroot
+#mount / /sysroot
 
 # Bypass rootfs and bash into initramfs; DO NOT UNCOMMENT THE LINE BELOW UNLESS YOU KNOW WHAT YOU ARE DOING
 #./bin/bash
 
 # Unmount temporary filesystem
 
-exec switch_root /sysroot /bin/init
-
-umount /proc
-umount /sys
-umount /dev
-
+#exec switch_root /sysroot /bin/init
+mount -o rw /dev/vda1 /root
+exec switch_root /root /sbin/init
+#umount /proc
+#umount /sys
+#umount /dev
+#exec /bin/bash
 # Copyright 2026 Elias Stinson (favoriteone)
 # This program is free software: you can redistribute it and/or modify it under the terms of the
 # GNU General Public License as published by the Free Software Foundation, either version 3
